@@ -1,0 +1,13 @@
+User ID,Device Model,Operating System,App Usage Time (min/day),Screen On Time (hours/day),Battery Drain (mAh/day),Number of Apps Installed,Data Usage (MB/day),Age,Gender,User Behavior Class
+30,Samsung Galaxy S21,Android,412,6.2,1899,78,1384,19,Female,4
+84,Xiaomi Mi 11,Android,39,1.8,368,11,105,19,Male,1
+102,OnePlus 9,Android,183,4.1,1210,45,738,19,Male,3
+112,Xiaomi Mi 11,Android,488,8.6,2447,84,2344,19,Male,5
+199,OnePlus 9,Android,80,1.6,549,14,197,19,Male,1
+236,Xiaomi Mi 11,Android,37,1.4,369,18,295,19,Female,1
+238,OnePlus 9,Android,425,6.9,2142,66,1130,19,Female,4
+248,Google Pixel 5,Android,314,6.2,2205,63,1066,19,Male,4
+258,Xiaomi Mi 11,Android,272,5.0,1655,45,686,19,Female,3
+305,iPhone 12,iOS,155,2.9,1117,22,322,19,Female,2
+555,iPhone 12,iOS,387,6.6,2168,61,1246,19,Female,4
+583,iPhone 12,iOS,191,5.7,1414,53,991,19,Female,3
