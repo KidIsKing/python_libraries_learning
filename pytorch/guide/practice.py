@@ -35,7 +35,7 @@ for _ in range(100):
     model = Sequential(
         Linear(4, 16),
         ReLU(),
-        Linear(16, 3)
+        Linear(16, 3),
     )
     loss_fn = CrossEntropyLoss()
     optimizer = SGD(model.parameters(), lr=0.01)
