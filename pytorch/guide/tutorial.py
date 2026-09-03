@@ -9,7 +9,7 @@ X = torch.tensor([[0.4, 0.5], [0.9, 0.2], [0.2, 0.0], [0.1, 0.0]])
 
 # print(X, W, sep="\n")
 # # print(X * W)  # Поэлементное умножение матриц, где размерности должны совпадать
-# print(X @ W)
+# print(X @ W)  # Умножение по правилам умножения матриц Сейчас могли заметить другую проблему с функциями. W sкlosic modeling, a cislen reduce. Predlaga. Is it commentiru backward, он будет rave nan. No possu backward whether sloya. Deloc, near. It's special ppt. Is spake torч optim. Proizhlo elit. Concret zancien, sinalizi modeli, no poslemizing zer. Tears dostach e, wernu shadnich nalz. Bward neid, assumiруit z. On obnovit, shechraciach. I'd prost, core написаli. randoma будет w raz niже.
 
 # Не создаём матрицу весов, а создаём линейных слой
 linear = Linear(2, 3)  # Количество слоёв на входе и на выходе
