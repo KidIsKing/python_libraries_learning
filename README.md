@@ -1,4 +1,12 @@
-# Изучение Pandas и NumPy
+# Изучение библиотек Python
+
+## Библиотеки:
+
+1. *Pandas*
+2. *NumPy*
+3. *PyTorch*
+4. *re*
+5. *matplotlib*
 
 ## Файлы:
 
