@@ -7,6 +7,7 @@
 3. *PyTorch*
 4. *re*
 5. *matplotlib*
+6. *pytest*
 
 ## Файлы:
 
