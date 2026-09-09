@@ -125,8 +125,8 @@ print(score)
 # к какому из трех сортов ириса он относится. То есть, это
 # задача мультиклассовой классификации. Параметров всего 4 — длина и ширина
 # чашелистика (sepal) и длина и ширина лепестка (petal).
-X = torch.load("D:/Dev/Learning/python_libraries_learning/pytorch/guide/data/data.pt")
-y = torch.load("D:/Dev/Learning/python_libraries_learning/pytorch/guide/data/target.pt")
+X = torch.load("D:/Dev/Learning/python_libraries_learning/pytorch/guide/part_1/data/data.pt")
+y = torch.load("D:/Dev/Learning/python_libraries_learning/pytorch/guide/part_1/data/target.pt")
 print(X[:3], y[:3])
 print(len(X))  # 150 объектов
 # 100 объектов на обучение, 50 - на валидацию

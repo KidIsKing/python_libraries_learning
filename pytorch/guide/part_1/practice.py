@@ -16,13 +16,13 @@ def info(data):
 
 
 def save_info(message):
-    with open("pytorch/guide/data/info.txt", "a", encoding="utf-8") as f:
+    with open("pytorch/guide/part_1/data/info.txt", "a", encoding="utf-8") as f:
         f.write(message)
 
 
 # Загрузка файлов
-X = torch.load("pytorch/guide/data/data.pt")
-y = torch.load("pytorch/guide/data/target.pt")
+X = torch.load("pytorch/guide/part_1/data/data.pt")
+y = torch.load("pytorch/guide/part_1/data/target.pt")
 
 # Выборка
 X_train, X_val = X[:100], X[100:]
