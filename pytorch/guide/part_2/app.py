@@ -1,25 +1,38 @@
 import torch
 
 
-data = torch.load("pytorch/guide/part_2/data/wine-red.pt")
-print(data.shape)  # torch.Size([1599, 12]) - 1599 записей, 11 признаков и одна колонка с оценкой сомелье
+X_train = torch.load("pytorch/guide/part_2/data/X_train.pt")
+y_train = torch.load("pytorch/guide/part_2/data/y_train.pt")
+X_val = torch.load("pytorch/guide/part_2/data/X_val.pt")
+y_val = torch.load("pytorch/guide/part_2/data/y_val.pt")
 
-index = torch.randperm(data.shape[0])
-data = data[index]
+W = torch.randn(11, 1, requires_grad=True)  # Генерация случайных тензоров для таблицы весов
+b = torch.randn(1, requires_grad=True)  # Аналогично для матрицы векторов смещений
 
-X, y = data[:, :-1], data[:, -1:]
-X_train, X_val = X[:1000], X[1000:]
-y_train, y_val = y[:1000], y[1000:]
-print(X_train.shape, y_train.shape, X_val.shape, y_val.shape)
+# y_hat = X_train @ W + b
 
-# Данные для нормализации подбираем по тренировочным данным
-mean = X_train.mean(0)  # Передаем 0 в качестве аргумента, чтобы посчитать значения в каждой колонке
-std = X_train.std(0)
-# Нормализуем все данные
-X_train = (X_train - mean) / std
-X_val = (X_val - mean) / std
+# Размерности совпадают
+# print(y_hat.shape)
+# print(y_train.shape)
 
-torch.save(X_train, "X_train.pt")
-torch.save(X_val, "X_val.pt")
-torch.save(y_train, "y_train.pt")
-torch.save(y_val, "y_val.pt")
+# Функция потерь вычисляется без ошибок
+# loss = ((y_hat - y_train) ** 2).mean()
+# print(loss)  # 38.8131
+
+alpha = 0.01
+
+for _ in range(1000):
+    y_hat = X_train @ W + b
+    loss = ((y_hat - y_train) ** 2).mean()
+    loss.backward()
+    with torch.no_grad():
+        W -= alpha * W.grad
+        b -= alpha * b.grad
+    W.grad = None
+    b.grad = None
+    print(f"Ошибка: {loss:.2f}.")
+
+with torch.no_grad():
+    y_hat = X_val @ W + b
+score = (y_hat - y_val).abs().mean()
+print(f"Среднее отклонение: {score:.2f} балла.")
