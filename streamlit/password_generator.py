@@ -1,4 +1,4 @@
-"""Генератор паролей."""
+"""Генератор паролей. Ссылка: https://yana-password-generator.streamlit.app/"""
 
 
 import streamlit as st
