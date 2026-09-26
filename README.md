@@ -8,6 +8,7 @@
 4. *re*
 5. *matplotlib*
 6. *pytest*
+7. *streamlit*
 
 ## Файлы:
 
