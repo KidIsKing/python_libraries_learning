@@ -6,8 +6,8 @@
 import pandas as pd
 
 
-data = pd.read_csv("fastapi/guide/data/application_info.csv")
-default_data = pd.read_csv("fastapi/guide/data/default_flg.csv")
+data = pd.read_csv("fastapi/guide/mish/data/application_info.csv")
+default_data = pd.read_csv("fastapi/guide/mish/data/default_flg.csv")
 
 # Оставляем только нужные колонки
 data = data[["age", "income", "education_cd", "good_work_flg", "car_own_flg"]]
@@ -35,4 +35,4 @@ data["salary"] = data["salary"] // 1000
 data = data.sample(frac=1, random_state=22)  # frac=1 - перемешивание всей выборки
 print(data.head())
 
-data.to_csv("fastapi/guide/data/scoring.csv", index=False)
+data.to_csv("fastapi/guide/mish/data/scoring.csv", index=False)

@@ -5,7 +5,7 @@ from sklearn.linear_model import LogisticRegression  # Модель - логис
 from sklearn.metrics import precision_score, recall_score  # Метрики
 
 
-data = pd.read_csv("fastapi/guide/data/scoring.csv")
+data = pd.read_csv("fastapi/guide/mish/data/scoring.csv")
 
 X = data.drop(columns=["default"]).values
 y = data["default"]
@@ -25,4 +25,4 @@ print(f"Отказано: {y_hat.mean() * 100:.0f}%")  # Модель будет
 print(f"Точность: {precision * 100:.0f}%")  # Заявки, по которым модель предсказывает дефолт, реально закончатся дефолтом
 print(f"Полнота:  {recall * 100:.0f}%")  # С такой полнотой модель позволит выявить заявки клиентов с будущим дефолтом
 
-joblib.dump(model, "fastapi/guide/model.pkl")
+joblib.dump(model, "fastapi/guide/mish/model.pkl")
