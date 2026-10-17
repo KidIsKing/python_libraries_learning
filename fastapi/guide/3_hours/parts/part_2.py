@@ -19,7 +19,7 @@ def get_balance(wallet_name: str | None = None):
     return {"wallet": wallet_name, "balance": BALANCE[wallet_name]}
 
 
-@app.post("wallets/{name}")
+@app.post("/wallets/{name}")
 def receive_money(name: str, amount: int):
     if name not in BALANCE:
         BALANCE[name] = 0  # Инициализируем кошелёк с нулевым балансом
