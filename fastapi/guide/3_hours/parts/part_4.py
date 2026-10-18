@@ -1,3 +1,6 @@
+"""Валидация данных."""
+
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, field_validator
 

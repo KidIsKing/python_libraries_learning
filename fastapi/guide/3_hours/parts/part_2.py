@@ -1,3 +1,6 @@
+"""Эндпоинты и http-запросы."""
+
+
 from fastapi import FastAPI, HTTPException
 
 
