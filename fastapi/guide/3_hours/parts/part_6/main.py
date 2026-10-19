@@ -4,7 +4,7 @@
 from fastapi import FastAPI
 from app.api.v1.wallets import router as wallet_router
 from app.api.v1.operations import router as operation_router
-from database import Base, engine
+from app.database import Base, engine
 
 
 app = FastAPI()

@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from database import SessionLocal
+from app.database import SessionLocal
 from app.schemas import CreateWalletRequest
 from app.repository import wallets as wallets_repository
 

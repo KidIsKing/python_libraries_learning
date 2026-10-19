@@ -1,6 +1,6 @@
 from decimal import Decimal
 from sqlalchemy.orm import Session
-from models import Wallet
+from app.models import Wallet
 
 
 def is_wallet_exist(db: Session, wallet_name: str) -> bool:
