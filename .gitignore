@@ -4,8 +4,9 @@ __pycache__/
 
 catboost_info/
 
-# База данных для изучения FastAPI
+# Базы данных для изучения FastAPI
 finance.db
+test.db
 
 # Данные для классификации спама
 scikit_learn/guide/base_ML_book/chapter_3/tasks/data/spam/
