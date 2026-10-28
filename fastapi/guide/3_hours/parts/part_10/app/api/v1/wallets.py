@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends
 from app.models import User
-from app.schemas import CreateWalletRequest
+from app.schemas import CreateWalletRequest, WalletResponse
 from app.service import wallets as wallets_service
 from app.dependency import get_db, get_current_user
 
@@ -18,7 +18,7 @@ def get_balance(
     return wallets_service.get_balance(db, current_user, wallet_name)
 
 
-@router.post("/wallets")
+@router.post("/wallets", response_model=WalletResponse)
 def create_wallet(
     wallet: CreateWalletRequest,
     db: Session = Depends(get_db),

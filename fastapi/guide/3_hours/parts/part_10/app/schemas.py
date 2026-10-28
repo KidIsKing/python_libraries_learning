@@ -1,5 +1,17 @@
 from decimal import Decimal
+from datetime import datetime
 from pydantic import BaseModel, Field, field_validator
+from app.enum import CurrencyEnum
+
+
+class UserRequest(BaseModel):
+    login: str = Field(max_length=127)
+
+
+class UserResponse(UserRequest):
+    model_config = {"from_attributes": True}  # sqlalchemy-модель станет pydantic-моделью
+
+    id: int
 
 
 class OperationRequest(BaseModel):
@@ -21,9 +33,23 @@ class OperationRequest(BaseModel):
         return v
 
 
+class OperationResponse(BaseModel):
+    model_config = {"from_attributes": True}
+
+    id: int
+    wallet_id: int
+    type: str
+    amount: Decimal
+    currency: CurrencyEnum
+    category: str | None
+    subcategory: str | None
+    created_at: datetime
+
+
 class CreateWalletRequest(BaseModel):
     name: str = Field(..., max_length=127)
     initial_balance: Decimal = 0
+    currency: CurrencyEnum = CurrencyEnum.RUB  # По умолчанию - рубли
 
     @field_validator("name")
     def name_not_empty(cls, v: str) -> str:
@@ -39,11 +65,29 @@ class CreateWalletRequest(BaseModel):
         return v
 
 
-class UserRequest(BaseModel):
-    login: str = Field(max_length=127)
-
-
-class UserResponse(UserRequest):
-    model_config = {"from_attributes": True}  # sqlalchemy-модель станет pydantic-модель
+class WalletResponse(BaseModel):
+    model_config = {"from_attributes": True}
 
     id: int
+    name: str
+    balance: Decimal
+    currency: CurrencyEnum
+
+
+class TransferCreateSchema(BaseModel):
+    from_wallet_id: int
+    to_wallet_id: int
+    amount: Decimal
+
+    @field_validator("to_wallet_id")
+    @classmethod
+    def wallets_must_differ(cls, v: int, info) -> int:
+        if "from_wallet_id" in info.data and v == info.data["from_wallet_id"]:
+            raise ValueError("Same wallets ids.")
+        return v
+
+    @field_validator("amount")
+    def amount_must_be_positive(cls, v: Decimal) -> Decimal:
+        if v <= 0:
+            raise ValueError("Amount must be positive.")
+        return v
