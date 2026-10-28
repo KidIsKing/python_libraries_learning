@@ -7,7 +7,7 @@ from app.schemas import OperationRequest, OperationResponse
 from app.models import User
 from app.repository import wallets as wallets_repository
 from app.repository import operations as operations_repository
-from app.service.exchange_service import get_exchange_rate
+from app.service import exchange_service
 
 
 def add_income(db: Session, current_user: User, operation: OperationRequest) -> OperationResponse:
@@ -106,7 +106,7 @@ async def transfer_between_wallets(
     target_amount = amount  # Сколько придёт получателю
     exchange_rate = Decimal("1")  # По умолчанию валюты одинаковые
     if wallet_from.currency != wallet_to.currency:
-        exchange_rate = await get_exchange_rate(wallet_from.currency, wallet_to.currency)
+        exchange_rate = await exchange_service.get_exchange_rate(wallet_from.currency, wallet_to.currency)
     target_amount = round(amount * exchange_rate, 2)
 
     wallet_from.balance = round(wallet_from.balance - amount, 2)
