@@ -82,7 +82,8 @@ def get_operations_list(
     return result
 
 
-def transfer_between_wallets(
+# Чтобы задать await нужно сделать функцию корутиной
+async def transfer_between_wallets(
     db: Session,
     user_id: int,
     from_wallet_id: int,
@@ -105,7 +106,7 @@ def transfer_between_wallets(
     target_amount = amount  # Сколько придёт получателю
     exchange_rate = Decimal("1")  # По умолчанию валюты одинаковые
     if wallet_from.currency != wallet_to.currency:
-        exchange_rate = get_exchange_rate(wallet_from.currency, wallet_to.currency)
+        exchange_rate = await get_exchange_rate(wallet_from.currency, wallet_to.currency)
     target_amount = round(amount * exchange_rate, 2)
 
     wallet_from.balance = round(wallet_from.balance - amount, 2)

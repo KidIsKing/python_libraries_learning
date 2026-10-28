@@ -1,5 +1,6 @@
 from decimal import Decimal
 import requests
+import aiohttp
 from app.enum import CurrencyEnum
 
 
@@ -13,7 +14,8 @@ FALLBACK_RATES: dict[tuple[str, str], Decimal] = {
 }
 
 
-def get_exchange_rate(base: CurrencyEnum, target: CurrencyEnum) -> Decimal:
+# Теперь это не функция, а корутина с async
+async def get_exchange_rate(base: CurrencyEnum, target: CurrencyEnum) -> Decimal:
     """
     Получает курс обмена между двумя валютами
 
@@ -27,12 +29,17 @@ def get_exchange_rate(base: CurrencyEnum, target: CurrencyEnum) -> Decimal:
     """
 
     url = f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{base}.json"
+
+    # Асинхронные процессы
+    timeout = aiohttp.ClientTimeout(total=5.0)
+
     try:
-        response = requests.get(url, timeout=5)
-        response.raise_for_status()  # Обработка исключений всех статусов кроме 200
-        data = response.json()
-        base_map = data.get(base, {})  # По умолчанию берём пустой словарь
-        rate = base_map.get(target)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            async with session.get(url) as response:
+                response.raise_for_status()  # Обработка исключений всех статусов кроме 200
+                data = await response.json()
+                base_map = data.get(base, {})  # По умолчанию берём пустой словарь
+                rate = base_map.get(target)
 
         if rate and isinstance(rate, (int, float)):
             return Decimal(rate)
