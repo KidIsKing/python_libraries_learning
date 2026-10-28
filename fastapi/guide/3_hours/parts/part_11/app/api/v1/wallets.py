@@ -25,3 +25,8 @@ def create_wallet(
     current_user: User = Depends(get_current_user)
 ):
     return wallets_service.create_wallet(db, current_user, wallet)
+
+
+@router.get("/wallets", response_model=list[WalletResponse])
+def get_all_wallets(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    return wallets_service.get_all_wallets(db, current_user)
