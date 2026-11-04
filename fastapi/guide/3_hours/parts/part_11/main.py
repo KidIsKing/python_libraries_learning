@@ -17,6 +17,6 @@ app.include_router(wallet_router, prefix="/api/v1", tags=["wallet"])
 app.include_router(operation_router, prefix="/api/v1", tags=["operation"])
 app.include_router(users_router, prefix="/api/v1", tags=["user"])
 
-# app.mount("/static", StaticFiles(directory="app/static", name="static"))
+# app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 Base.metadata.create_all(bind=engine)  # При старте приложения в базе данных будут созданы сущности

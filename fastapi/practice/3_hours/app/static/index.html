@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Wallet — Финансы под контролем</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div id="toast" class="toast" role="status"></div>
+
+  <section id="auth-screen" class="auth-screen">
+    <div class="auth-card">
+      <a class="brand brand-auth" href="#"><span class="brand-mark">w</span> wallet<span class="brand-dot">.</span></a>
+      <div class="auth-copy">
+        <span class="eyebrow">PERSONAL FINANCE</span>
+        <h1>Ваши деньги.<br><span>Под вашим контролем.</span></h1>
+        <p>Управляйте кошельками, следите за операциями и держите финансы в порядке.</p>
+      </div>
+      <form id="auth-form" class="auth-form">
+        <label for="login-input">Ваш логин</label>
+        <input id="login-input" name="login" type="text" maxlength="127" placeholder="Например, alex" autocomplete="username" required>
+        <button class="btn btn-primary btn-full" type="submit">Продолжить <span>→</span></button>
+        <small>Новый пользователь будет создан автоматически.</small>
+      </form>
+      <div class="auth-foot">Простой способ держать финансы в фокусе.</div>
+    </div>
+    <div class="auth-decoration"><div class="decor-orb orb-one"></div><div class="decor-orb orb-two"></div><div class="decor-grid"></div><div class="floating-card"><span>Общий баланс</span><strong>₽ 248 590,00</strong><small>Ваш финансовый обзор</small><div class="fake-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+  </section>
+
+  <div id="app" class="app-shell hidden">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">w</span> wallet<span class="brand-dot">.</span></a>
+      <div class="side-label">МЕНЮ</div>
+      <nav class="side-nav">
+        <a class="nav-link active" href="#overview"><span class="nav-icon">◫</span> Обзор</a>
+        <a class="nav-link" href="#wallets-section"><span class="nav-icon">▣</span> Мои кошельки</a>
+        <a class="nav-link" href="#transactions-section"><span class="nav-icon">↕</span> Операции</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="profile"><div class="avatar" id="user-avatar">U</div><div class="profile-info"><strong id="user-name">Пользователь</strong><span>Личный аккаунт</span></div></div>
+        <button id="logout-btn" class="logout-btn"><span>↪</span> Выйти</button>
+      </div>
+    </aside>
+
+    <main class="main-content" id="overview">
+      <header class="topbar"><div><span class="eyebrow">ВАШИ ФИНАНСЫ</span><h1>Добрый день<span class="heading-period">.</span></h1><p>Вот что происходит с вашими деньгами.</p></div><button class="btn btn-primary" id="add-wallet-open">＋ Новый кошелёк</button></header>
+
+      <section class="balance-card">
+        <div class="balance-content"><span class="balance-caption">ОБЩИЙ БАЛАНС <span class="info-dot" title="Сумма всех кошельков, пересчитанная в рубли">i</span></span><div class="balance-value" id="total-balance">—</div><span class="balance-note">Суммарный баланс в рублях</span></div>
+        <div class="balance-art"><div class="art-ring ring-a"></div><div class="art-ring ring-b"></div><div class="art-chip">₽</div></div>
+        <div class="balance-bottom"><span><i class="status-dot"></i> Все кошельки учтены</span><span id="wallet-count">0 кошельков</span></div>
+      </section>
+
+      <section class="section-block" id="wallets-section">
+        <div class="section-heading"><div><span class="eyebrow">ВАШИ СЧЕТА</span><h2>Мои кошельки</h2></div><button class="text-button" id="add-wallet-inline">Добавить <span>＋</span></button></div>
+        <div id="wallet-list" class="wallet-grid"><div class="empty-state">Загружаем кошельки...</div></div>
+      </section>
+
+      <section class="section-block" id="transactions-section">
+        <div class="section-heading"><div><span class="eyebrow">ИСТОРИЯ</span><h2>Последние операции</h2></div><button class="text-button" id="refresh-btn">Обновить ↻</button></div>
+        <div class="table-card"><div class="table-wrap"><table><thead><tr><th>ОПЕРАЦИЯ</th><th>КОШЕЛЁК</th><th>ДАТА</th><th class="align-right">СУММА</th></tr></thead><tbody id="operations-list"><tr><td colspan="4" class="table-empty">Загружаем операции...</td></tr></tbody></table></div></div>
+      </section>
+      <footer class="footer"><span>WALLET<span class="brand-dot">.</span> — личные финансы без лишнего</span><span>Сделано с вниманием к деталям</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modal-backdrop">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" id="modal-close" aria-label="Закрыть">×</button>
+      <span class="eyebrow" id="modal-eyebrow">НОВЫЙ КОШЕЛЁК</span><h2 id="modal-title">Создать кошелёк</h2><p class="modal-description" id="modal-description">Добавьте новый счёт, чтобы отслеживать его баланс.</p>
+      <form id="modal-form">
+        <div id="wallet-fields">
+          <label for="wallet-name">Название кошелька</label><input id="wallet-name" maxlength="127" placeholder="Например, Основной" required>
+          <div class="form-row"><div><label for="wallet-currency">Валюта</label><select id="wallet-currency"><option value="rub">₽ Российский рубль</option><option value="usd">$ Доллар США</option><option value="eur">€ Евро</option></select></div><div><label for="wallet-balance">Начальный баланс</label><input id="wallet-balance" type="number" min="0" step="0.01" value="0" required></div></div>
+        </div>
+        <div id="operation-fields" class="hidden">
+          <label for="operation-wallet">Кошелёк</label><select id="operation-wallet" required></select>
+          <label for="operation-amount">Сумма</label><input id="operation-amount" type="number" min="0.01" step="0.01" placeholder="0.00" required>
+          <label for="operation-description">Описание</label><input id="operation-description" maxlength="256" placeholder="Например, Зарплата">
+        </div>
+        <div id="transfer-fields" class="hidden">
+          <label for="from-wallet">Откуда</label><select id="from-wallet" required></select>
+          <label for="to-wallet">Куда</label><select id="to-wallet" required></select>
+          <label for="transfer-amount">Сумма перевода</label><input id="transfer-amount" type="number" min="0.01" step="0.01" placeholder="0.00" required>
+        </div>
+        <button class="btn btn-primary btn-full modal-submit" id="modal-submit" type="submit">Создать кошелёк <span>→</span></button>
+      </form>
+    </section>
+  </div>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
