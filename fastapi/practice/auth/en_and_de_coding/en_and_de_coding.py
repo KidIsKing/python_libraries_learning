@@ -4,6 +4,9 @@
 import base64
 
 
+# ============================ ЧАСТЬ 1 ============================
+
+
 text = "Hello, world!"
 
 # Кодирование
@@ -21,13 +24,27 @@ decoded_text = decoded_bytes.decode("utf-8")
 print(decoded_text)
 
 
-with open("fastapi/practice/auth/text.txt", "rb") as file_text:
-    encoded_file = base64.b64encode(file_text.read()).decode("utf-8")
-with open("fastapi/practice/auth/encoded_text.txt", "w") as file_encoded_text:
-    file_encoded_text.write(encoded_text)
-with open("fastapi/practice/auth/encoded_text.txt", "r") as file_encoded_text:
-    decoded_file_text = base64.b64decode(file_encoded_text.read()).decode("utf-8")
-print(encoded_file, decoded_file_text)
+# ============================ ЧАСТЬ 2 ============================
+
+
+# Читаем и кодируем текст из файла data/text_file.txt
+with open("fastapi/practice/auth/en_and_de_coding/data/text_file.txt", "rb") as file_text:
+    bytes_text_from_file = file_text.read()
+    encoded_text_from_file = base64.b64encode(bytes_text_from_file).decode("utf-8")
+    print(encoded_text_from_file)
+
+# Записываем закодированный текст в файл data/encoded_text_file.txt
+with open("fastapi/practice/auth/en_and_de_coding/data/encoded_text_file.txt", "w") as file_encoded_text:
+    file_encoded_text.write(encoded_text_from_file)
+
+# Читаем закодированный текст и декодируем его для проверки
+with open("fastapi/practice/auth/en_and_de_coding/data/encoded_text_file.txt", "r") as file_encoded_text:
+    bytes_text_from_file = file_encoded_text.read()
+    decoded_text_from_file = base64.b64decode(bytes_text_from_file).decode("utf-8")
+    print(decoded_text_from_file)
+
+
+# ============================ ЧАСТЬ 3 ============================
 
 
 text = "Hi"  # 1. Это строка (текст для человека)
