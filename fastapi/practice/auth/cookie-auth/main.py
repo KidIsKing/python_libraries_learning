@@ -1,0 +1,115 @@
+"""Session auth - старый, проверенный способ аутентификации, который широко
+используется в классических веб-приложениях (Django, Flask, Rails и др.)"""
+
+
+from fastapi import FastAPI, Response, HTTPException, status, Depends, Cookie
+from fastapi.middleware.cors import CORSMiddleware
+from typing import Optional
+from app.auth import (
+    validate_credentials, create_session,
+    get_current_user_from_cookie, end_session
+)
+from app.config import settings
+from app.models import ErrorMessage, LoginRequest, LoginResponse
+
+
+app = FastAPI(
+    title=settings.APP_NAME,
+    debug=settings.DEBUG,
+    docs_url="/docs"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/")
+def root():
+    return {"message": "Welcome to the FastAPI Session Auth Example"}
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
+
+
+@app.get("/public")
+def public_route():
+    return {"message": "This is a public route", "data": "public information"}
+
+
+@app.post(
+    "/login",
+    response_model=LoginResponse,
+    summary="Login with username and password",
+    description="Create a session and set a cookie",
+    responses={
+        200: {"description": "Login successful"},
+        401: {
+            "model": ErrorMessage,
+            "description": "Unauthorized: Invalid credentials"
+        }
+    }
+)
+def login(login_request: LoginRequest, response: Response):
+    if not validate_credentials(login_request.username, login_request.password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid username or password"
+        )
+
+    create_session(login_request.username, response)
+
+    return LoginResponse(username=login_request.username)
+
+
+@app.get(
+    "/protected",
+    summary="Protected route (requires session cookie)",
+    description="This endpoint requires a valid session cookie to access",
+    responses={
+        200: {"description": "Succesful response"},
+        401: {
+            "model": ErrorMessage,
+            "description": "Unauthorized: Invalid or missing session"
+        }
+    }
+)
+def protected_route(username: str = Depends(get_current_user_from_cookie)):
+    return {
+        "message": "This is a protected route",
+        "data": "secret information accessible with cookie",
+        "authenticated_user": username
+    }
+
+
+@app.post(
+    "/logout",
+    summary="Logout and end session",
+    description="End the current session and clear the session cookie",
+    responses={
+        200: {"description": "Logout succesful"},
+        401: {
+            "model": ErrorMessage,
+            "description": "Unauthorized: Invalid or missing session"
+        }
+    }
+)
+def logout(
+    response: Response,
+    session_token: Optional[str] = Cookie(None, alias="session_token")
+):
+    if not session_token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="No active session"
+        )
+
+    end_session(session_token, response)
+
+    return {"message": "Logout succesful"}
