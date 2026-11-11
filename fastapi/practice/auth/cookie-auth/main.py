@@ -112,4 +112,4 @@ def logout(
 
     end_session(session_token, response)
 
-    return {"message": "Logout succesful"}
+    return {"message": "Logout successful"}
