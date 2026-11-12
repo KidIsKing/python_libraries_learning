@@ -1,7 +1,3 @@
-"""Basic Auth — это самый простой способ аутентификации, при котором логин и
-пароль передаются в каждом HTTP-запросе в виде base64-кодированной строки."""
-
-
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.auth import get_current_user
@@ -26,7 +22,7 @@ app.add_middleware(
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to the FastAPI Basic Auth Example"}
+    return {"message": "Welcome to the FastAPI Nginx Basic Auth Example"}
 
 
 @app.get("/health")
@@ -51,7 +47,7 @@ def public_route():
         }
     }
 )
-def protected_route(username = Depends(get_current_user)):
+def protected_route(username: str = Depends(get_current_user)):
     return {
         "message": "This is a protected route",
         "data": "secret information",
