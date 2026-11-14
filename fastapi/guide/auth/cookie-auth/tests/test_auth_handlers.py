@@ -1,7 +1,5 @@
 import pytest
-import base64
 from fastapi import status
-from main import app
 from app.auth import active_sessions
 
 

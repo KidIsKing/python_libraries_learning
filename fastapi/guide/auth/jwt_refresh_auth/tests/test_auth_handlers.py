@@ -1,12 +1,9 @@
 from datetime import datetime, timezone, timedelta
-import pytest
 from fastapi import status
-from fastapi.testclient import TestClient
 from app.auth import blacklisted_tokens, refresh_tokens
 from app.auth import (
     cleanup_expired_blacklisted_tokens, cleanup_expired_refresh_tokens,
 )
-from main import app
 
 
 BASE_URL = "http://localhost:8000"

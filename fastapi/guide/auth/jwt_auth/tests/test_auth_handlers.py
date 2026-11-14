@@ -1,10 +1,7 @@
-import pytest
 from fastapi import status
-from fastapi.testclient import TestClient
 from datetime import datetime, timezone, timedelta
-from main import app
 from app.auth import cleanup_expired_blacklisted_tokens, blacklisted_tokens
- 
+
 
 BASE_URL = "http://localhost:8000"
 USERNAME = "admin"
